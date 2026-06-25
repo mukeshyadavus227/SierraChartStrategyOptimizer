@@ -9,6 +9,19 @@ Ready-to-edit configs for running the Strategy Optimizer against the
 > inputs *at runtime* by index and runs chart replays — your `.cpp`/DLL is
 > never touched.
 
+## ⚠️ Purpose: mechanics QA — *not* edge discovery
+
+These passes verify the study **fires entries, exits, and filters correctly**. They are
+**not** a way to find profitable settings. `MyClaude_V61` has **no validated edge**
+(walk-forward OOS *t* = −3.69, gross-negative on every timeframe). Selecting the best of
+~285 configs over an ~8-week window is **selection bias, not signal** — the max of ~285
+noisy runs looks ~3σ profitable by chance even on a true-zero strategy.
+
+> **Never type optimizer winners into the live-armed `MyClaude_V61` study (real account
+> 23234705).** That deployment keeps its frozen parameters; nothing in this folder
+> produces a tradeable configuration. Treat all output below as QA, then validate
+> out-of-sample (see [Reading results & out-of-sample validation](#reading-results--out-of-sample-validation)).
+
 ## How the optimizer treats parameters (read this first)
 
 | `increment` | Behavior |
@@ -94,10 +107,32 @@ len (34)=14. Warm-up: trendLen reaches 300, so start the replay ≥300 bars earl
 risk-adjusted metrics **and** trade count. A filter earns its keep only if it lifts
 quality enough to justify the trades it removes.
 
-## Reading results
+## Reading results & out-of-sample validation
 
 Open the generated results folder in the `visualizer/` Streamlit app. Judge on
 **risk-adjusted** metrics (Sharpe, Profit Factor, Max Drawdown) — not Total P/L
-alone — and trust **broad plateaus**, not lone peaks. Validate the winner
-**out-of-sample** before any live use. 45 inputs = high overfitting risk; stage
-the sweeps and keep degrees of freedom low.
+alone — and trust **broad plateaus**, not lone peaks. 45 inputs = high overfitting
+risk; stage the sweeps and keep degrees of freedom low.
+
+### Enforced holdout (do this before you believe any number)
+
+Split the data into a **search window** and an untouched **holdout**, and never judge a
+config on the data you searched:
+
+1. **Search (train) — 2026-05-01 → 2026-06-01.** Run PassA → PassB → PassC here and pick
+   **at most one** candidate per pass.
+2. **Holdout (test) — 2026-06-01 → today.** Lock your final config and run it **once**
+   via [`StrategyOptimizerConfig.Holdout.json`](StrategyOptimizerConfig.Holdout.json).
+   **One look. No re-tuning to the holdout.**
+3. If the holdout P/L flips sign or Sharpe/PF collapses, **discard the config** — it was
+   overfit. Passing the holdout does **not** certify an edge (it's only ~3 weeks / a few
+   trades); it only rules out gross overfit.
+
+> **The window *end* is a chart setting, not a config field.** The optimizer reads only
+> `startDate` (confirmed in `ConfigManager.cpp` / `ReplayManager.cpp` — `s_ChartReplayParameters`
+> is given only `StartDateTime`) and replays to the **last loaded chart bar**. To cap the
+> search at 2026-06-01, set the **chart's data range** to end on 2026-06-01 before running;
+> for the holdout, extend the chart through today. The `*.json` files set the **start** only.
+
+> **Do not deploy optimizer winners.** The live-armed study (account 23234705) keeps its
+> frozen parameters. Optimizer output here is QA only.

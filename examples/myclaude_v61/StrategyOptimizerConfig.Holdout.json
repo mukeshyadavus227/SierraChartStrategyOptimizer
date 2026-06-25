@@ -1,0 +1,65 @@
+{
+    "_notes": [
+        "OUT-OF-SAMPLE HOLDOUT validation for MyClaude_V61 — run this ONCE, last.",
+        "",
+        "PURPOSE: after the PassA/PassB/PassC mechanics-QA sweeps, you LOCK one final",
+        "configuration (PassA winner + PassB winner + PassC winner) in the study. This file",
+        "runs that ONE config over the untouched holdout window so you can see whether it",
+        "survives out-of-sample. It is the validation step, not another search.",
+        "",
+        "WHY ONLY ONE HOLDOUT FILE (not PassA/B/C.Holdout): re-sweeping on the holdout is",
+        "SEARCHING the holdout = peeking, which destroys the whole point. A holdout gets",
+        "exactly ONE look at the ONE final config. No re-tuning to it.",
+        "",
+        "WINDOW: startDate = 2026-06-01 (holdout start). The optimizer has NO end-date field",
+        "(it reads ONLY startDate and replays to the LAST LOADED CHART BAR), so control the",
+        "window via the CHART's data range: load data from a few hundred bars BEFORE",
+        "2026-06-01 (for 200-MA / Range Filter / RQK / ATR warm-up) THROUGH today. Replay",
+        "then trades 2026-06-01 -> now. (The search passes capped the chart END at 2026-06-01;",
+        "here you EXTEND the chart's data END to the latest bar.)",
+        "",
+        "SET MANUALLY in the study before running (optimizer leaves increment-0 inputs alone):",
+        "  - PassA winner: Range Filter Period (27), Range Filter Multiplier (28), RQK Lookback (29)",
+        "  - PassB winner: Stop ATR x (1), TP1 (4), TP2 (6), Trail ATR x (8); plus Stop Type (0)=0,",
+        "                  Trailing-after-TP1 (7)=Yes, TP1 Close % (5)<100",
+        "  - PassC winner: Trend MA (40), Volume Filter (42), Choppiness (32) at their chosen values",
+        "  - Enable Order Submission (35)=Yes, ALLOW LIVE (36)=No, FLATTEN NOW (39)=No,",
+        "    Trade >> Trade Simulation Mode = ON",
+        "",
+        "THE SWEEP BELOW IS A 1-COMBO RUN: it re-asserts your locked Range Filter Period so the",
+        "optimizer executes EXACTLY ONE replay. Set BOTH min AND max to your PassA-winner value",
+        "(shown here as 100 — REPLACE with yours). increment 1 with min==max => 1 combination.",
+        "",
+        "VERDICT RULE (decide BEFORE you look): if holdout P/L flips sign, or Sharpe / Profit",
+        "Factor collapses vs the search window, DISCARD the config — it was overfit. Passing",
+        "this does NOT certify an edge: the holdout is ~3 weeks / a handful of trades; it only",
+        "rules out gross overfit. Certification needs YEARS of OOS, not weeks.",
+        "NEVER deploy this config to the live-armed study (real acct 23234705) regardless of result."
+    ],
+    "customStudyFileAndFunctionName": "MyClaude_V61.scsf_MyClaude_V61",
+    "openResultsFolder": true,
+    "replayConfig": {
+        "replaySpeed": 15360,
+        "startDate": "2026-06-01",
+        "startTime": "00:00:00.000",
+        "replayMode": 1,
+        "chartsToReplay": 0,
+        "clearExistingTradeSimulationDataForSymbolAndTradeAccount": 1,
+        "skipEmptyPeriods": 1
+    },
+    "logConfig": {
+        "enableLog": true,
+        "enableShowLogOnChart": true,
+        "maxLogLines": 25
+    },
+    "paramConfigs": [
+        {
+            "_name": "Range Filter Period (LOCK to PassA winner: set BOTH min and max to it)",
+            "index": 27,
+            "type": "int",
+            "min": 100,
+            "max": 100,
+            "increment": 1
+        }
+    ]
+}
