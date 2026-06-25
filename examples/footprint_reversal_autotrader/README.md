@@ -52,6 +52,18 @@ The study early-returns if volume-at-price data isn't present, so a replay needs
 trades**, that — or the missing NumberBars2 dependency — is almost always why.
 Verify the first run produces footprint data and trades before trusting the grid.
 
+## Out-of-sample holdout (do this before believing any number)
+Same discipline as the MyClaude kit: **search on one window, validate once on an
+untouched one.**
+1. **Search (train):** run `StrategyOptimizerConfig.json` with the chart's data
+   range ending at your split date (default boundary: 2026-06-15). Pick **one**
+   candidate on risk-adjusted metrics, only if results show a broad plateau.
+2. **Holdout (test):** lock that config in the study, extend the chart through
+   today, and run [`StrategyOptimizerConfig.Holdout.json`](StrategyOptimizerConfig.Holdout.json)
+   **once** (it replays 2026-06-15 → now). No re-tuning to the holdout.
+3. If P/L flips sign or Sharpe/PF collapses, **discard it** — overfit. Passing does
+   **not** certify an edge; this is an unproven scaffold, so stay sim-only regardless.
+
 ## License
 Derived work under the **MIT License**, preserving the original FutTrader
 copyright/attribution. See the header in `FootprintReversalAutoTrader.cpp`.
