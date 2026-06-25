@@ -73,6 +73,25 @@ Dependencies (set manually, or the sweep does nothing): **Stop Type (idx 0) = 0 
 for `Stop ATR x` to bite; **Trailing Stop after TP1 (idx 7) = Yes** for `Trail ATR x`
 to bite; **TP1 Close % (idx 5) < 100** (default 50) so a TP2 runner exists.
 
+## Pass C — filter ablation (`StrategyOptimizerConfig.PassC.json`, 16 combos)
+
+Run after A and B (lock their winners manually). Toggles each filter on/off so you
+can see whether it **earns its keep**:
+
+| Param | idx | type | values |
+| --- | --- | --- | --- |
+| Trend Filter MA Length | 40 | int | 0 (off) / 100 / 200 / 300 |
+| Volume Filter | 42 | bool | off / on |
+| Enable Choppiness Filter | 32 | bool | off / on |
+
+When a filter is **on**, its sub-parameters are read from the study (set them
+manually): Volume → mult (43)=1.5, len (44)=20; Choppiness → limit (33)=61.8,
+len (34)=14. Warm-up: trendLen reaches 300, so start the replay ≥300 bars early.
+
+**Reading it:** filters *cut* trades, so don't judge on Total P/L alone — compare
+risk-adjusted metrics **and** trade count. A filter earns its keep only if it lifts
+quality enough to justify the trades it removes.
+
 ## Reading results
 
 Open the generated results folder in the `visualizer/` Streamlit app. Judge on

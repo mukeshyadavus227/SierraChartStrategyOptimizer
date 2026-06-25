@@ -1,0 +1,77 @@
+{
+    "_notes": [
+        "READY-TO-EDIT optimizer config for MyClaude_V61 — Pass C (FILTER ABLATION).",
+        "Goal: find out whether each filter earns its keep by toggling them on/off and",
+        "comparing the result set. Run AFTER Pass A and Pass B.",
+        "",
+        "increment > 0  -> SWEPT.   increment == 0 -> IGNORED (set it MANUALLY in the study).",
+        "",
+        "SET MANUALLY before running:",
+        "  Pass A winner: Range Filter Period (27), Range Filter Multiplier (28), RQK Lookback (29)",
+        "  Pass B winner: Stop ATR x (1), TP1 Mult (4), TP2 Mult (6), Trail ATR x (8)",
+        "  Enablement/safety: Enable Order Submission (35)=Yes, ALLOW LIVE (36)=No,",
+        "                     FLATTEN NOW (39)=No, Trade >> Trade Simulation Mode = ON",
+        "  When the VOLUME filter is ON in a combo, these are used (set them sensibly):",
+        "                     Volume Filter Multiplier (43)=1.5, Volume MA Length (44)=20",
+        "  When the CHOPPINESS filter is ON in a combo, these are used:",
+        "                     Choppiness Limit (33)=61.8, Choppiness Length (34)=14",
+        "  Keep Long Only (41) at your chosen value for ALL combos so the ablation is fair.",
+        "",
+        "SWEPT below (the ablation knobs):",
+        "  - Trend Filter MA Length (40): 0 = OFF, else longs only ABOVE the MA. Values 0/100/200/300.",
+        "  - Volume Filter (42): 0 = OFF, 1 = ON.",
+        "  - Enable Choppiness Filter (32): 0 = OFF, 1 = ON.",
+        "",
+        "REPLAY MODE: keep replayMode = 1 (Standard); mode 2 can yield ZERO trades.",
+        "WARM-UP: trendLen sweeps up to 300, so start the replay at least ~300 bars before",
+        "your evaluation window or the longest-MA combos won't trade early on.",
+        "",
+        "READING IT: filters CUT trades, so do NOT judge on Total P/L alone. Compare",
+        "risk-adjusted metrics (Sharpe, Profit Factor, Max Drawdown) AND trade count — a",
+        "filter earns its keep only if it improves quality enough to justify the trades it removes.",
+        "",
+        "Pass C = 4 x 2 x 2 = 16 combinations."
+    ],
+    "customStudyFileAndFunctionName": "MyClaude_V61.scsf_MyClaude_V61",
+    "openResultsFolder": true,
+    "replayConfig": {
+        "replaySpeed": 15360,
+        "startDate": "2026-05-01",
+        "startTime": "00:00:00.000",
+        "replayMode": 1,
+        "chartsToReplay": 0,
+        "clearExistingTradeSimulationDataForSymbolAndTradeAccount": 1,
+        "skipEmptyPeriods": 1
+    },
+    "logConfig": {
+        "enableLog": true,
+        "enableShowLogOnChart": true,
+        "maxLogLines": 25
+    },
+    "paramConfigs": [
+        {
+            "_name": "Trend Filter MA Length (0=off)",
+            "index": 40,
+            "type": "int",
+            "min": 0,
+            "max": 300,
+            "increment": 100
+        },
+        {
+            "_name": "Volume Filter (on/off)",
+            "index": 42,
+            "type": "bool",
+            "min": 0,
+            "max": 1,
+            "increment": 1
+        },
+        {
+            "_name": "Enable Choppiness Filter (on/off)",
+            "index": 32,
+            "type": "bool",
+            "min": 0,
+            "max": 1,
+            "increment": 1
+        }
+    ]
+}
