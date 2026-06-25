@@ -57,9 +57,10 @@ The optimizer will **not** set these — do it yourself before running:
 | Range Filter Multiplier | 28 | float | 2.0 → 4.0 / 0.5 |
 | RQK Lookback Window | 29 | float | 4 → 12 / 2 |
 
-## Pass B — risk/exit sweep (run after fixing Pass A's winner, ~144 combos)
+## Pass B — risk/exit sweep (`StrategyOptimizerConfig.PassB.json`, 144 combos)
 
-Set Pass A's best Range Filter / RQK values **manually** (increment 0), then sweep:
+Run after Pass A: set Pass A's best Range Filter / RQK values **manually**
+(they are `increment 0` here, so the optimizer leaves them alone), then sweep:
 
 | Param | idx | type | min → max / step |
 | --- | --- | --- | --- |
@@ -67,6 +68,10 @@ Set Pass A's best Range Filter / RQK values **manually** (increment 0), then swe
 | TP1 Risk Multiple | 4 | float | 1.0 → 2.0 / 0.5 |
 | TP2 Risk Multiple | 6 | float | 1.5 → 3.0 / 0.5 |
 | Trail ATR x | 8 | float | 1.0 → 2.0 / 0.5 |
+
+Dependencies (set manually, or the sweep does nothing): **Stop Type (idx 0) = 0 (ATR)**
+for `Stop ATR x` to bite; **Trailing Stop after TP1 (idx 7) = Yes** for `Trail ATR x`
+to bite; **TP1 Close % (idx 5) < 100** (default 50) so a TP2 runner exists.
 
 ## Reading results
 

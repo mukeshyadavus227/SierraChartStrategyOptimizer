@@ -1,0 +1,81 @@
+{
+    "_notes": [
+        "READY-TO-EDIT optimizer config for MyClaude_V61 — Pass B (risk/exit sweep).",
+        "Run this AFTER Pass A: set Pass A's winning signal values MANUALLY in the study,",
+        "then sweep the risk/exit parameters below. Regenerate indices with CS6 first.",
+        "",
+        "increment > 0  -> SWEPT.   increment == 0 -> IGNORED (set it MANUALLY in the study).",
+        "",
+        "SET MANUALLY (the optimizer does NOT set these):",
+        "  Pass A winner:",
+        "    - Range Filter Period (idx 27), Range Filter Multiplier (idx 28),",
+        "      RQK Lookback Window (idx 29)   <- the best values you found in Pass A",
+        "  Enablement / safety interlock:",
+        "    - Enable Order Submission (idx 35) = Yes",
+        "    - ALLOW LIVE (idx 36)             = No",
+        "    - FLATTEN NOW (idx 39)            = No",
+        "    - Trade >> Trade Simulation Mode  = ON",
+        "  REQUIRED for this sweep to actually do anything:",
+        "    - Stop Type (idx 0) = 0 (ATR)   <- else 'Stop ATR x' (idx 1) has NO effect",
+        "    - Trailing Stop after TP1 (idx 7) = Yes <- else 'Trail ATR x' (idx 8) has NO effect",
+        "    - TP1 Close % (idx 5) < 100 (default 50) <- else there is no TP2 runner to size",
+        "  Other held inputs: Order Quantity (idx 18)=1, Trend MA (idx 40)=200,",
+        "    Long Only (idx 41)=Yes, session/block times aligned to instrument timezone.",
+        "",
+        "REPLAY MODE: keep replayMode = 1 (Standard). Mode 2 can yield ZERO trades because",
+        "the study early-returns on sc.IsFullRecalculation. Verify fills on the first combo.",
+        "WARM-UP: set startDate a few hundred bars before your evaluation window.",
+        "",
+        "Pass B below = 4 x 3 x 4 x 3 = 144 combinations."
+    ],
+    "customStudyFileAndFunctionName": "MyClaude_V61.scsf_MyClaude_V61",
+    "openResultsFolder": true,
+    "replayConfig": {
+        "replaySpeed": 15360,
+        "startDate": "2026-05-01",
+        "startTime": "00:00:00.000",
+        "replayMode": 1,
+        "chartsToReplay": 0,
+        "clearExistingTradeSimulationDataForSymbolAndTradeAccount": 1,
+        "skipEmptyPeriods": 1
+    },
+    "logConfig": {
+        "enableLog": true,
+        "enableShowLogOnChart": true,
+        "maxLogLines": 25
+    },
+    "paramConfigs": [
+        {
+            "_name": "Stop ATR x",
+            "index": 1,
+            "type": "float",
+            "min": 1.5,
+            "max": 3.0,
+            "increment": 0.5
+        },
+        {
+            "_name": "TP1 Risk Multiple",
+            "index": 4,
+            "type": "float",
+            "min": 1.0,
+            "max": 2.0,
+            "increment": 0.5
+        },
+        {
+            "_name": "TP2 Risk Multiple",
+            "index": 6,
+            "type": "float",
+            "min": 1.5,
+            "max": 3.0,
+            "increment": 0.5
+        },
+        {
+            "_name": "Trail ATR x",
+            "index": 8,
+            "type": "float",
+            "min": 1.0,
+            "max": 2.0,
+            "increment": 0.5
+        }
+    ]
+}
