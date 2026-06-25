@@ -1,0 +1,74 @@
+{
+    "_notes": [
+        "READY-TO-EDIT optimizer config for MyClaude_V61 — Pass A (signal-edge sweep).",
+        "This file is a STARTING POINT. Before running, regenerate indices with the CS6",
+        "(Generate Config) button against the live study, then transfer your min/max/increment.",
+        "",
+        "CRITICAL — how this optimizer treats parameters:",
+        "  * increment > 0  -> the parameter is SWEPT (min..max by increment).",
+        "  * increment == 0 -> the parameter is IGNORED by the optimizer (NOT set on the study).",
+        "    You MUST set those inputs MANUALLY in the MyClaude_V61 study settings beforehand.",
+        "",
+        "MANUAL SETUP CHECKLIST (set these in the study; the optimizer will NOT set them):",
+        "  - Enable Order Submission (idx 35) = Yes",
+        "  - ALLOW LIVE (idx 36)             = No   (keep simulation interlock)",
+        "  - FLATTEN NOW (idx 39)            = No",
+        "  - Trade >> Trade Simulation Mode  = ON   (so orders can NEVER hit a live broker)",
+        "  - Stop Type (idx 0) = 0 (ATR), Stop ATR x (idx 1) = 2.0",
+        "  - TP1 Mult (idx 4) = 1.0, TP2 Mult (idx 6) = 1.5, Trail ATR x (idx 8) = 1.5",
+        "  - Order Quantity (idx 18) = 1 contract (fixed sizing keeps P/L = edge, not size)",
+        "  - Session/Block times (idx 13/14/20/21) aligned to your instrument's CHART timezone",
+        "  - Trend Filter MA (idx 40) = 200, Long Only (idx 41) = Yes (or your preference)",
+        "",
+        "REPLAY MODE: keep replayMode = 1 (Standard). The study early-returns on",
+        "sc.IsFullRecalculation, so mode 2 (Accurate Back Test) can produce ZERO trades.",
+        "Verify ONE combo produces fills (Trade >> Trade Activity Log) before the full grid.",
+        "",
+        "WARM-UP: set startDate a few hundred bars BEFORE the window you care about, so the",
+        "200-bar trend MA + Range Filter + RQK + ATR are warmed up before the first entry.",
+        "",
+        "Pass A below = 5 x 5 x 5 = 125 combinations."
+    ],
+    "customStudyFileAndFunctionName": "MyClaude_V61.scsf_MyClaude_V61",
+    "openResultsFolder": true,
+    "replayConfig": {
+        "replaySpeed": 15360,
+        "startDate": "2026-05-01",
+        "startTime": "00:00:00.000",
+        "replayMode": 1,
+        "chartsToReplay": 0,
+        "clearExistingTradeSimulationDataForSymbolAndTradeAccount": 1,
+        "skipEmptyPeriods": 1
+    },
+    "logConfig": {
+        "enableLog": true,
+        "enableShowLogOnChart": true,
+        "maxLogLines": 25
+    },
+    "paramConfigs": [
+        {
+            "_name": "Range Filter Period",
+            "index": 27,
+            "type": "int",
+            "min": 50,
+            "max": 150,
+            "increment": 25
+        },
+        {
+            "_name": "Range Filter Multiplier",
+            "index": 28,
+            "type": "float",
+            "min": 2.0,
+            "max": 4.0,
+            "increment": 0.5
+        },
+        {
+            "_name": "RQK Lookback Window",
+            "index": 29,
+            "type": "float",
+            "min": 4.0,
+            "max": 12.0,
+            "increment": 2.0
+        }
+    ]
+}
