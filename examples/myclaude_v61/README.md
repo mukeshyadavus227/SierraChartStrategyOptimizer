@@ -1,5 +1,7 @@
 # MyClaude_V61 — Optimizer Configs
 
+> 👉 **New here? Start with [QUICK-START.md](QUICK-START.md)** — 5 plain-English steps, no jargon.
+
 Ready-to-edit configs for running the Strategy Optimizer against the
 `MyClaude_V61` study (Range Filter + RQK + Choppiness + risk/exit engine).
 
