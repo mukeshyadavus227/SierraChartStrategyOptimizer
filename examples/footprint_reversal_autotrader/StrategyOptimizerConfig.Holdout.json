@@ -1,0 +1,65 @@
+{
+    "_notes": [
+        "OUT-OF-SAMPLE HOLDOUT validation for the Footprint Reversal AutoTrader scaffold.",
+        "Run this ONCE, last. SIM ONLY. This is an UNTESTED, UNPROVEN scaffold — treat a",
+        "passing holdout as 'not obviously broken', never as 'has edge'.",
+        "",
+        "PURPOSE: after searching the small grid in StrategyOptimizerConfig.json (imbalance %,",
+        "PB ticks, R:R), you LOCK one final configuration in the study and run it ONCE over the",
+        "untouched holdout window. It is the validation step, not another search. Re-sweeping on",
+        "the holdout = peeking, which destroys the point. ONE look at the ONE final config.",
+        "",
+        "TRAIN / HOLDOUT SPLIT (adjust dates to your available intraday TICK data):",
+        "  SEARCH (train): run StrategyOptimizerConfig.json with the CHART data range END set to",
+        "                  2026-06-15. (Its startDate is 2026-06-01.)",
+        "  HOLDOUT (test): this file, startDate = 2026-06-15, with the CHART extended THROUGH",
+        "                  today. The optimizer has NO end-date field (reads ONLY startDate and",
+        "                  replays to the LAST LOADED CHART BAR), so the window end is a CHART",
+        "                  setting, not a config field.",
+        "",
+        "FOOTPRINT CAVEAT: volume-at-price data must exist across the WHOLE window, so intraday",
+        "tick data must be loaded for both train and holdout, plus the NumberBars2 dependency.",
+        "If you get zero trades, that (or a missing dependency) is why — not necessarily 'no edge'.",
+        "",
+        "SET MANUALLY before running (optimizer leaves increment-0 inputs alone):",
+        "  - Search winners: Buy/Sell Imbalance % (6), PB ticks (9), Reward:Risk (14), Stop Buffer (13)",
+        "  - Input NumberBars2 (3) = study ID, Relative Volume SG14 (4) = SG14",
+        "  - Enable Order Submission (10)=Yes, ALLOW LIVE (11)=No, FLATTEN NOW (18)=No,",
+        "    Order Quantity (12)=1, Trade >> Trade Simulation Mode = ON",
+        "",
+        "THE SWEEP BELOW IS A 1-COMBO RUN: it re-asserts your locked imbalance % so the optimizer",
+        "executes EXACTLY ONE replay. Set BOTH min AND max to your search-winner value (shown here",
+        "as 400 — REPLACE with yours). increment 1 with min==max => 1 combination.",
+        "",
+        "VERDICT RULE (decide BEFORE you look): if holdout P/L flips sign, or Sharpe / Profit",
+        "Factor collapses vs the search window, DISCARD the config — it was overfit. Passing does",
+        "NOT certify an edge; the holdout is a couple of weeks of a scaffold with no prior testing.",
+        "Certification needs YEARS of OOS. Keep this SIM-only; do not trade it."
+    ],
+    "customStudyFileAndFunctionName": "FootprintReversalAutoTrader.scsf_FootprintReversalAutoTrader",
+    "openResultsFolder": true,
+    "replayConfig": {
+        "replaySpeed": 5000,
+        "startDate": "2026-06-15",
+        "startTime": "00:00:00.000",
+        "replayMode": 1,
+        "chartsToReplay": 0,
+        "clearExistingTradeSimulationDataForSymbolAndTradeAccount": 1,
+        "skipEmptyPeriods": 1
+    },
+    "logConfig": {
+        "enableLog": true,
+        "enableShowLogOnChart": true,
+        "maxLogLines": 25
+    },
+    "paramConfigs": [
+        {
+            "_name": "Buy/Sell Imbalance % Threshold (LOCK to search winner: set BOTH min and max to it)",
+            "index": 6,
+            "type": "int",
+            "min": 400,
+            "max": 400,
+            "increment": 1
+        }
+    ]
+}

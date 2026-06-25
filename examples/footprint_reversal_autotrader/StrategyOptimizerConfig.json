@@ -1,0 +1,69 @@
+{
+    "_notes": [
+        "Optimizer config for the Footprint Reversal AutoTrader SCAFFOLD. SIM ONLY.",
+        "This sweeps the signal + exit knobs. Regenerate indices with CS6 first.",
+        "",
+        "increment > 0 -> SWEPT.  increment == 0 -> IGNORED (set MANUALLY in the study).",
+        "",
+        "MANUAL SETUP (the optimizer does NOT set these):",
+        "  - Trade >> Trade Simulation Mode = ON  (so it can never reach a live broker)",
+        "  - Enable Order Submission (idx 10) = Yes",
+        "  - ALLOW LIVE (idx 11)             = No",
+        "  - FLATTEN NOW (idx 18)            = No",
+        "  - Order Quantity (idx 12)         = 1",
+        "  - Stop Buffer Ticks (idx 13)      = 2  (held fixed this pass)",
+        "  - Input NumberBars2 (idx 3)       = the Number Bars Calculated study ID",
+        "  - Relative Volume SG14 (idx 4)    = SG14 of that study",
+        "    (the signal cannot compute without the NumberBars2 dependency wired up)",
+        "",
+        "FOOTPRINT BACKTEST CAVEAT (important): this study needs volume-at-price data",
+        "to exist during the replay (it early-returns if VAP < ArraySize). That requires",
+        "intraday TICK data loaded and a tick-by-tick replay. Verify the first run",
+        "actually produces footprint data + trades before trusting the grid. If you get",
+        "zero trades, this is the usual cause.",
+        "",
+        "Sweep below = 3 x 3 x 4 = 36 combinations."
+    ],
+    "customStudyFileAndFunctionName": "FootprintReversalAutoTrader.scsf_FootprintReversalAutoTrader",
+    "openResultsFolder": true,
+    "replayConfig": {
+        "replaySpeed": 5000,
+        "startDate": "2026-06-01",
+        "startTime": "00:00:00.000",
+        "replayMode": 1,
+        "chartsToReplay": 0,
+        "clearExistingTradeSimulationDataForSymbolAndTradeAccount": 1,
+        "skipEmptyPeriods": 1
+    },
+    "logConfig": {
+        "enableLog": true,
+        "enableShowLogOnChart": true,
+        "maxLogLines": 25
+    },
+    "paramConfigs": [
+        {
+            "_name": "Buy/Sell Imbalance % Threshold",
+            "index": 6,
+            "type": "int",
+            "min": 300,
+            "max": 500,
+            "increment": 100
+        },
+        {
+            "_name": "Ticks from High/Low for PB Reversal",
+            "index": 9,
+            "type": "int",
+            "min": 2,
+            "max": 6,
+            "increment": 2
+        },
+        {
+            "_name": "Reward:Risk Multiple",
+            "index": 14,
+            "type": "float",
+            "min": 1.5,
+            "max": 3.0,
+            "increment": 0.5
+        }
+    ]
+}
