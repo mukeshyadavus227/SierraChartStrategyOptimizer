@@ -130,6 +130,23 @@ The `summary.csv` file provides a high-level overview of all the backtest runs, 
 -   **A `.json` file**: Contains detailed trade-by-trade data, including entry/exit times, prices, and profit/loss for each trade. This file is useful for in-depth analysis.
 -   **A `.csv` file**: A CSV representation of the trade data for easy viewing.
 
+## Worked Example: OTF State Strategy
+
+A complete, worked example of taking a study from "indicator" to "optimizable
+strategy" is included:
+
+-   `OTFStateFilter.cpp` — a visual-only OTF trend filter (places no trades).
+-   `OTFStateStrategy.cpp` — a trade-enabled, parameterized version that can be
+    back tested and optimized with this tool.
+-   `StrategyOptimizerConfig.OTFStateStrategy.example.json` — a ready-to-use
+    optimizer config for it.
+-   `tools/otf_backtest.cpp` — a portable, offline back tester/optimizer for the
+    same logic (runs on exported OHLC CSV, no Sierra Chart required).
+
+See [`OTFStateStrategy.md`](OTFStateStrategy.md) for the full write-up, including
+why a pure filter is not directly back-testable and how to run both the in-chart
+and offline workflows.
+
 ## ⭐ Support the Project
 
 If you find this Strategy Optimizer useful, please consider giving the repository a star on GitHub! Your support helps in maintaining and improving this tool. Thank you for helping this project grow! 🚀

@@ -1,0 +1,93 @@
+{
+    "_customStudyFileAndFunctionName": "OTFStateStrategy.scsf_OTFStateStrategy",
+    "_comment": "Optimizer config for OTFStateStrategy. Edit replayConfig.startDate to a date your chart has data for. Parameters with increment 0 are NOT changed by the optimizer (the study's current chart values are used), so make sure the study instance on the chart already has Visualize Only = No before running. The sweep below = 5 (count) x 3 (target) x 2 (stop) = 30 combinations.",
+    "openResultsFolder": true,
+    "replayConfig": {
+        "replaySpeed": 15360,
+        "startDate": "2026-06-21",
+        "startTime": "00:00:00.000",
+        "replayMode": 2,
+        "chartsToReplay": 0,
+        "clearExistingTradeSimulationDataForSymbolAndTradeAccount": 1,
+        "skipEmptyPeriods": 1
+    },
+    "logConfig": {
+        "enableLog": true,
+        "enableShowLogOnChart": true,
+        "maxLogLines": 25
+    },
+    "paramConfigs": [
+        {
+            "_name": "Source Chart  (0 = this chart)",
+            "index": 0,
+            "type": "int",
+            "min": 0,
+            "max": 0,
+            "increment": 0
+        },
+        {
+            "_name": "Consecutive HL/LH Count",
+            "index": 1,
+            "type": "int",
+            "min": 2,
+            "max": 6,
+            "increment": 1
+        },
+        {
+            "_name": "Visualize Signals Only (No Trades)",
+            "index": 2,
+            "type": "bool",
+            "min": 0,
+            "max": 0,
+            "increment": 0
+        },
+        {
+            "_name": "Enable Long Trades",
+            "index": 3,
+            "type": "bool",
+            "min": 1,
+            "max": 1,
+            "increment": 0
+        },
+        {
+            "_name": "Enable Short Trades",
+            "index": 4,
+            "type": "bool",
+            "min": 1,
+            "max": 1,
+            "increment": 0
+        },
+        {
+            "_name": "Order Quantity",
+            "index": 5,
+            "type": "int",
+            "min": 1,
+            "max": 1,
+            "increment": 0
+        },
+        {
+            "_name": "Target in Ticks (0 = none)",
+            "index": 6,
+            "type": "int",
+            "min": 0,
+            "max": 40,
+            "increment": 20
+        },
+        {
+            "_name": "Stop in Ticks (0 = none)",
+            "index": 7,
+            "type": "int",
+            "min": 20,
+            "max": 40,
+            "increment": 20
+        },
+        {
+            "_name": "Trade On Bar Close Only",
+            "index": 8,
+            "type": "bool",
+            "min": 1,
+            "max": 1,
+            "increment": 0
+        }
+    ]
+}
