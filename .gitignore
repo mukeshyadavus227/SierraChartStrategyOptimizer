@@ -41,3 +41,8 @@
 *.dwo
 
 *.exp
+
+# Generated demo data / results / binary from tools/otf_backtest
+tools/sample_data.csv
+tools/results.csv
+tools/otf_backtest
